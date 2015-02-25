@@ -86,7 +86,7 @@ int main(int argc, char** argv)
         if (mem_lim != 0) limitMemory(mem_lim);
 
         if (argc == 1)
-            printf("Reading from standard input... Use '--help' for help.\n");
+            printf("Reading from standard input... Use '--help' for help.\n"), fflush (stdout);
 
         gzFile in = (argc == 1) ? gzdopen(0, "rb") : gzopen(argv[1], "rb");
         if (in == NULL)
@@ -94,7 +94,8 @@ int main(int argc, char** argv)
         
         if (S.verbosity > 0){
             printf("============================[ Problem Statistics ]=============================\n");
-            printf("|                                                                             |\n"); }
+            printf("|                                                                             |\n");
+            fflush (stdout); }
         
         parse_DIMACS(in, S, (bool)strictp);
         gzclose(in);
@@ -102,11 +103,13 @@ int main(int argc, char** argv)
 
         if (S.verbosity > 0){
             printf("|  Number of variables:  %12d                                         |\n", S.nVars());
-            printf("|  Number of clauses:    %12d                                         |\n", S.nClauses()); }
+            printf("|  Number of clauses:    %12d                                         |\n", S.nClauses())
+            fflush (stdout);  }
         
         double parsed_time = cpuTime();
         if (S.verbosity > 0)
-            printf("|  Parse time:           %12.2f s                                       |\n", parsed_time - initial_time);
+            printf("|  Parse time:           %12.2f s                                       |\n", parsed_time - initial_time),
+            fflush (stdout);
 
         // Change to signal-handlers that will only notify the solver and allow it to terminate
         // voluntarily:
@@ -116,7 +119,8 @@ int main(int argc, char** argv)
         double simplified_time = cpuTime();
         if (S.verbosity > 0){
             printf("|  Simplification time:  %12.2f s                                       |\n", simplified_time - parsed_time);
-            printf("|                                                                             |\n"); }
+            printf("|                                                                             |\n");
+            fflush (stdout); }
 
         if (!S.okay()){
             if (res != NULL) fprintf(res, "UNSAT\n"), fclose(res);
@@ -135,7 +139,8 @@ int main(int argc, char** argv)
             vec<Lit> dummy;
             ret = S.solveLimited(dummy);
         }else if (S.verbosity > 0)
-            printf("===============================================================================\n");
+            printf("===============================================================================\n"),
+            fflush (stdout);
 
         if (dimacs && ret == l_Undef)
             S.toDimacs((const char*)dimacs);
@@ -144,6 +149,7 @@ int main(int argc, char** argv)
             S.printStats();
             printf("\n"); }
         printf(ret == l_True ? "SATISFIABLE\n" : ret == l_False ? "UNSATISFIABLE\n" : "INDETERMINATE\n");
+        fflush (stdout);
         if (res != NULL){
             if (ret == l_True){
                 fprintf(res, "SAT\n");
@@ -156,6 +162,7 @@ int main(int argc, char** argv)
             else
                 fprintf(res, "INDET\n");
             fclose(res);
+            fflush (stdout);
         }
 
 #ifdef NDEBUG

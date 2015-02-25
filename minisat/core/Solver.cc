@@ -740,7 +740,8 @@ lbool Solver::search(int nof_conflicts)
                     printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
                            (int)conflicts, 
                            (int)dec_vars - (trail_lim.size() == 0 ? trail.size() : trail_lim[0]), nClauses(), (int)clauses_literals, 
-                           (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100);
+                           (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100),
+                    fflush (stdout);
             }
 
         }else{
@@ -857,6 +858,7 @@ lbool Solver::solve_()
         printf("| Conflicts |          ORIGINAL         |          LEARNT          | Progress |\n");
         printf("|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
         printf("===============================================================================\n");
+        fflush (stdout);
     }
 
     // Search:
@@ -869,7 +871,8 @@ lbool Solver::solve_()
     }
 
     if (verbosity >= 1)
-        printf("===============================================================================\n");
+        printf("===============================================================================\n"),
+        fflush (stdout);
 
 
     if (status == l_True){
@@ -1062,6 +1065,7 @@ void Solver::garbageCollect()
     relocAll(to);
     if (verbosity >= 2)
         printf("|  Garbage collection:   %12d bytes => %12d bytes             |\n", 
-               ca.size()*ClauseAllocator::Unit_Size, to.size()*ClauseAllocator::Unit_Size);
+               ca.size()*ClauseAllocator::Unit_Size, to.size()*ClauseAllocator::Unit_Size),
+        fflush (stdout);
     to.moveTo(ca);
 }
