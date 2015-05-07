@@ -163,6 +163,8 @@ void Minisat::sigTerm(void handler(int))
 {
     signal(SIGINT, handler);
     signal(SIGTERM,handler);
+    signal(SIGABRT,handler);
+    signal(SIGSEGV,handler);
 #ifdef SIGXCPU
     signal(SIGXCPU,handler);
 #endif
