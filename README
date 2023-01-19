@@ -32,7 +32,22 @@ Configuration
 ================================================================================
 Building
 
-  [ TODO: describe seperate build modes ]
+================================================================================
+
+{
+  [This is how I (Armin Biere) build it]
+
+  As I only interested in the full version with simplication using
+  variable elimination compiled with full optimization I only use
+
+    $ MROOT=`pwd` make -j r
+
+  which then produces the 'release' binary in
+
+    build/release/bin/minisat
+}
+
+  [ TODO: describe seperate build modes for 'cmake' etc]
 
 ================================================================================
 Install
