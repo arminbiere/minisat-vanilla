@@ -1,3 +1,6 @@
+Patches to 'fflush' after printing and compiling under GCC xxx.
+           Copyright (c) 20015, Armin Biere, Johannes Kepler University
+
 MiniSat -- Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
            Copyright (c) 2007-2010  Niklas Sorensson
 
